@@ -1,19 +1,5 @@
 name: 'Content Tracker'
 description: 'Send messages to slack to remind about PRs'
-inputs:
-  # SlackToken:
-  #   description: Slack Token
-  #   required: true
-  # repoPAT:
-  #   description: Personal Access Token for repo
-  #   required: true
-  repo:
-    description: GitHub repo
-    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    # - ${{ inputs.SlackToken }}
-    # - ${{ inputs.repoPAT }}
-    - ${{ inputs.repo }}
