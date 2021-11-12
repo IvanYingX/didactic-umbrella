@@ -1,12 +1,12 @@
-import sys
+import os
 from github import Github
 from datetime import datetime
 from slack_sdk import WebClient
 
 
-slack_token = sys.argv[1]
-git_token = sys.argv[2]
-repo = sys.argc[3]
+slack_token = os.environ['SLACK_TOKEN']
+git_token = os.environ['GIT_TOKEN']
+repo = os.environ['REPO']
 
 client = WebClient(slack_token)
 g = Github(git_token)

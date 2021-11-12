@@ -16,7 +16,7 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.SlackToken }}
-    - ${{ inputs.repoPAT }}
-    - ${{ inputs.repo }}
+  env:
+    SLACK_TOKEN: ${{ inputs.SlackToken }}
+    GIT_TOKEN: ${{ inputs.repoPAT }}
+    REPO: ${{ inputs.repo }}
