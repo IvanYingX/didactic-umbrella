@@ -3,16 +3,13 @@ description: 'Send messages to slack to remind about PRs'
 inputs:
   SlackToken:
     description: Slack Token
-    required: false
-    default: ${{ secrets.SLACK_TOKEN }}
+    required: true
   repoPAT:
     description: Personal Access Token for repo
-    required: false
-    default: ${{ secrets.PUBLICPAT }}
+    required: true
   repo:
     description: GitHub repo
-    required: false
-    default: ${{ github.repository }}
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
