@@ -1,0 +1,45 @@
+name: Deploy across content repos
+
+on:
+  release:
+    types:
+      - released
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Update workflow file
+        run: |
+          prefix_to_remove="refs/tags/"
+          tag_name=${GITHUB_REF#"$prefix_to_remove"}
+          echo "" >> workflow_template.yaml # add newline
+          echo "      - uses: IvanYingX/didactic-umbrella@$tag_name" >> workflow_template.yaml # add new step
+          mv workflow_template.yaml ..
+
+      - uses: actions/checkout@v2
+        with:
+          repository: IvanYingX/Testing_umbrella
+          token: ${{ secrets.PUBLICPAT }}
+
+      - name: Copy updated workflow file over
+        run: |
+          cp ../workflow_template.yaml .github/workflows/content-tracker.yaml
+          echo "        with:" >>  workflow_template.yaml
+          echo "          args:" >> workflow_template.yaml 
+          echo "            ${{ secrets.SLACK_TOKEN }}" >> workflow_template.yaml
+          echo "            ${{ secrets.PUBLICPAT }}" >> workflow_template.yaml
+          echo "            ${{ github.repository }}" >> workflow_template.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "ying.yingxuan@hotmail.com"
+          git config --global user.name "Ivan"
+          git add .
+          git commit -m "Updates content tracker action"
+          git push
