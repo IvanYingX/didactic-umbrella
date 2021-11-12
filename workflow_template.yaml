@@ -13,3 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with: 
+          args:
+            ${{ secrets.SLACK_TOKEN }}
+            ${{ secrets.PUBLICPAT }}
+            ${{ github.repository }}
